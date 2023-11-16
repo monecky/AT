@@ -9,7 +9,7 @@ class Node(object):
     except for `__str__`.
     """
 
-    def __init__(self, vertex_type: NodeType, label=None, color_enum=None, attack_tree=None):
+    def __init__(self, node_type: NodeType, label=None, color_enum=None, attack_tree=None):
         """
         Creates a node, part of `attack_tree`, with optional label `label`.
         (Labels of different vertices may be chosen the same; this does
@@ -24,20 +24,18 @@ class Node(object):
             label = attack_tree.next_label()
         if color_enum is None:
             color_enum = 0
-        self.color_enum = color_enum
-        self.identifier_number_of_vertices = None
-        self.identifier_true_or_false = None
+        self._color_enum = color_enum
         self._at = attack_tree
-        self.label = label
+        self._label = label
         self._incidence = {}
-        self.vertex_type = vertex_type
+        self._node_type = node_type
 
     def __repr__(self):
         """
         A programmer-friendly representation of the node.
         :return: The string to approximate the constructor arguments of the 'Node'
         """
-        return 'Node(label={}, #incident={})'.format(self.label, len(self._incidence))
+        return 'Node(label={}, #incident={})'.format(self.label, len(self.incidence))
 
     def __str__(self) -> str:
         """
@@ -45,3 +43,35 @@ class Node(object):
         :return: The string representation of the label.
         """
         return str(self.label)
+
+    @property
+    def at(self):
+        return self._at
+
+    @property
+    def label(self):
+        return self._label
+
+    @property
+    def node_type(self):
+        return self._node_type
+
+    @property
+    def incidence(self):
+        return self._incidence
+
+    @at.setter
+    def at(self):
+        return self._at
+
+    @label.setter
+    def label(self):
+        return self._label
+
+    @node_type.setter
+    def node_type(self):
+        return self._node_type
+
+    @incidence.setter
+    def incidence(self):
+        return self._incidence
