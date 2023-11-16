@@ -1,3 +1,5 @@
+from typing import List
+
 from src.nodetype import NodeType
 from src.at_error import AtError
 
@@ -61,17 +63,19 @@ class Node(object):
         return self._incidence
 
     @at.setter
-    def at(self):
-        return self._at
+    def at(self, attack_tree=None):
+        if attack_tree is None:
+            AtError("A node needs to belong to a graph.")
+        self._at = attack_tree
 
     @label.setter
-    def label(self):
-        return self._label
+    def label(self, label: int):
+        self._label = label
 
     @node_type.setter
-    def node_type(self):
-        return self._node_type
+    def node_type(self, node_type: 'NodeType'):
+        self._node_type = node_type
 
     @incidence.setter
-    def incidence(self):
-        return self._incidence
+    def incidence(self, incidence: List['Node']):
+        self._incidence = incidence
