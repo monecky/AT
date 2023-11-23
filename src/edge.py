@@ -10,7 +10,7 @@ class Edge(object):
     (`Node` objects). The order of these matters when the graph is directed.
     """
 
-    def __init__(self, parent: List[Node], child: List[Node], weight=None):
+    def __init__(self, parent: List[Node], child: List[Node]):
         """
         Creates an edge between vertices `tail` and `head`
         :param parent: In case the graph is directed, this is the tail of the arrow.
@@ -22,14 +22,13 @@ class Edge(object):
 
         self._parent = parent
         self._child = child
-        self._weight = weight
 
     def __repr__(self):
         """
         A programmer-friendly representation of the edge.
         :return: The string to approximate the constructor arguments of the 'Edge'
         """
-        return 'Edge(head={}, tail={}, weight={})'.format(self.child.label, self.parent.label, self.weight)
+        return 'Edge(parent={}, child={})'.format(self.child.label, self.parent.label)
 
     def __str__(self) -> str:
         """
@@ -45,7 +44,3 @@ class Edge(object):
     @property
     def parent(self):
         return self._parent
-
-    @property
-    def weight(self):
-        return self._weight
