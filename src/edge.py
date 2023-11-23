@@ -19,7 +19,7 @@ class Edge(object):
             raise AtError("Can only add edges between nodes of the same graph")
 
         self._parent = parent
-        self._head = child
+        self._child = child
         self._weight = weight
 
     def __repr__(self):
@@ -38,7 +38,7 @@ class Edge(object):
 
     @property
     def child(self):
-        return self._head
+        return self._child
 
     @property
     def parent(self):
