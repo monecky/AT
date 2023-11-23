@@ -10,3 +10,7 @@ class NodeType(Enum):
     BAS = 2
     OR = 3
     AND = 4
+
+
+    def allNodeType():
+        return [NodeType.ROOT_OR, NodeType.ROOT_AND, NodeType.BAS, NodeType.OR, NodeType.AND]

@@ -1,7 +1,7 @@
 from typing import List
 
-from src.model.edge import Edge
-from src.model.node import Node
+from src.model.edge import *
+from src.model.node import *
 index = 0
 
 class AttackTree(object):

@@ -1,6 +1,6 @@
-from src.model.attribute import Attribute
-from src.model.nodetype import NodeType
-from src.model.at_error import AtError
+from src.model.attribute import *
+from src.model.nodetype import *
+from src.model.at_error import *
 
 
 class Node(object):
