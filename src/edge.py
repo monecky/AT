@@ -1,5 +1,3 @@
-from typing import List
-
 from src.at_error import AtError
 from src.node import Node
 
@@ -15,7 +13,6 @@ class Edge(object):
         Creates an edge between vertices `tail` and `head`
         :param parent: In case the graph is directed, this is the tail of the arrow.
         :param child: In case the graph is directed, this is the head of the arrow.
-        :param weight: Optional weight of the node, which can be any type, but usually is a number.
         """
         if parent.at != child.at:
             raise AtError("Can only add edges between nodes of the same graph")

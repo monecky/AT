@@ -28,8 +28,8 @@ class Node(object):
         self._color_enum = color_enum
         self._at = attack_tree
         self._label = label
-        self._parents = {}
-        self._children = {}
+        self._parents = []
+        self._children = []
         self._node_type = node_type
         self._attribute = attribute
 
