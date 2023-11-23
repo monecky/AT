@@ -1,5 +1,4 @@
-from typing import List
-
+from src.attribute import Attribute
 from src.nodetype import NodeType
 from src.at_error import AtError
 
@@ -11,7 +10,7 @@ class Node(object):
     except for `__str__`.
     """
 
-    def __init__(self, node_type: NodeType, label=None, color_enum=None, attack_tree=None):
+    def __init__(self, node_type: NodeType, attribute: 'Attribute', label=None, color_enum=None, attack_tree=None):
         """
         Creates a node, part of `attack_tree`, with optional label `label`.
         (Labels of different vertices may be chosen the same; this does
@@ -29,15 +28,18 @@ class Node(object):
         self._color_enum = color_enum
         self._at = attack_tree
         self._label = label
-        self._incidence = {}
+        self._parents = {}
+        self._children = {}
         self._node_type = node_type
+        self._attribute = attribute
 
     def __repr__(self):
         """
         A programmer-friendly representation of the node.
         :return: The string to approximate the constructor arguments of the 'Node'
         """
-        return 'Node(label={}, #incident={})'.format(self.label, len(self.incidence))
+        return 'Node(label={}, #parents={}, #children={}, #attribute={})'.format(self.label, len(self.parents),
+                                                                                 len(self.children), self._attribute)
 
     def __str__(self) -> str:
         """
@@ -59,8 +61,20 @@ class Node(object):
         return self._node_type
 
     @property
-    def incidence(self):
-        return self._incidence
+    def parents(self):
+        return self._parents
+
+    @property
+    def children(self):
+        return self._children
+
+    @property
+    def attribute(self):
+        return self._attribute
+
+    @attribute.setter
+    def attribute(self, attribute: 'attribute'):
+        self._attribute = attribute
 
     @at.setter
     def at(self, attack_tree=None):
@@ -76,6 +90,10 @@ class Node(object):
     def node_type(self, node_type: 'NodeType'):
         self._node_type = node_type
 
-    @incidence.setter
-    def incidence(self, incidence: List['Node']):
-        self._incidence = incidence
+    @parents.setter
+    def parents(self, parent: 'Node'):
+        self._parents += [parent]
+
+    @children.setter
+    def children(self, children: 'Node'):
+        self._children += [children]

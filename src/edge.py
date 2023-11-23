@@ -1,3 +1,5 @@
+from typing import List
+
 from src.at_error import AtError
 from src.node import Node
 
@@ -8,7 +10,7 @@ class Edge(object):
     (`Node` objects). The order of these matters when the graph is directed.
     """
 
-    def __init__(self, parent: Node, child: Node, weight=None):
+    def __init__(self, parent: List[Node], child: List[Node], weight=None):
         """
         Creates an edge between vertices `tail` and `head`
         :param parent: In case the graph is directed, this is the tail of the arrow.
