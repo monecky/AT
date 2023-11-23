@@ -5,7 +5,8 @@ class NodeType(Enum):
     """
     Enum class for all types of Nodes, might get added some versions later on.
     """
-    ROOT = 0
-    BAS = 1
-    OR = 2
-    AND = 3
+    ROOT_OR = 0
+    ROOT_AND = 1
+    BAS = 2
+    OR = 3
+    AND = 4

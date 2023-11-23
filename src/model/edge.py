@@ -1,5 +1,5 @@
-from src.at_error import AtError
-from src.node import Node
+from src.model.at_error import AtError
+from src.model.node import Node
 
 
 class Edge(object):
