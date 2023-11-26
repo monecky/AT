@@ -1,8 +1,7 @@
 """
 Includes functions for reading and writing graphs, in a very simple readable format.
 """
-import sys
-from typing import IO, Tuple, List, Union
+from typing import IO, Tuple
 
 from src.model.attack_tree import *
 
@@ -26,56 +25,50 @@ def read_line(f: IO[str]) -> str:
 
 def read_at(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     """
-    Read a attack tree from a file
-    :param f: The file
+    Read an attack tree from a file
+    :param f: The file where the attack tree is located
     :return: The AttackTree
     """
     node_types = allNodeType()
     for node_type in node_types:
         line = read_line(f)
-        node = line.find(":")
-        node_type.value
+        if(line.find(":")):
+            node = line.split(":")
+            print(node)
+            node_type.value
+    return [AttackTree([Node(node_type.ROOT_AND, Attribute(0))], [])]
 
-    # options = []
-    #
-    # while True:
-    #     try:
-    #         line = read_line(f)
-    #         n = int(line)
-    #
-    #         break
-    #     except ValueError:
-    #         if len(line) > 0 and line[-1] == '\n':
-    #             options.append(line[:-1])
-    #         else:
-    #             options.append(line)
-    #
-    # line = read_line(f)
-    # edges = []
-    #
-    # try:
-    #     while True:
-    #         comma = line.find(',')
-    #         if ':' in line:
-    #             colon = line.find(':')
-    #             edges.append((int(line[:comma]), int(line[comma + 1:colon]), int(line[colon + 1:])))
-    #         else:
-    #             edges.append((int(line[:comma]), int(line[comma + 1:]), None))
-    #         line = read_line(f)
-    # except Exception:
-    #     pass
-    #
-    # indexed_nodes = list(graph.vertices)
-    #
-    # for edge in edges:
-    #     graph += Edge(indexed_nodes[edge[0]], indexed_nodes[edge[1]], edge[2])
-    #
-    # if line != '' and line[0] == '-':
-    #     return graph, options, True
-    # else:
-    #     return graph, options, False
-def load_at():
-    pass
+def read_at_list(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
+    """
+    Read a list of attack tree from a file
+    :param f: The file where the attack tree is stored.
+    :return: The AttackTree list
+    """
+    print("read list for advance")
+    node_types = allNodeType()
+    for node_type in node_types:
+        line = read_line(f)
+        node = line.find(":")
+        print(node)
+        node_type.value
+    return [AttackTree([Node(node_type.ROOT_AND,Attribute(0))],[])]
+
+
+
+def load_at(f: IO[str], read_list: bool)-> 'AttackTree':
+    read_at(f)
+    """
+    Load a at from a file
+    :param f: The file
+    :param read_list: Specifies whether to read a list of graphs from the file, or just a single graph.
+    :return: The graph, or a list of graphs.
+    """
+    if read_list:
+        at_list = read_at_list(f)
+        return at_list
+    else:
+        at = read_at(f)
+        return at  # ,options
 
 
 def get_list_of_at(filename: str) -> 'AttackTree':
@@ -90,8 +83,8 @@ def get_list_of_at(filename: str) -> 'AttackTree':
 
     # Give all the graphs an index, which represents the index in the initial list
     i = 0
-    for graph in list_of_at[0]:
-        graph.index = i
+    for at in list_of_at:
+        at.index = i
         i += 1
 
     return list_of_at

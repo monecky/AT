@@ -19,10 +19,6 @@ class Node(object):
         :param attack_tree: The graph that this `Vertex` is a part of
         :param label: Optional parameter to specify a label for the
         """
-        if attack_tree is None:
-            AtError("A node needs to belong to a graph.")
-        if label is None:
-            label = attack_tree.next_label()
         if color_enum is None:
             color_enum = 0
         self._color_enum = color_enum
