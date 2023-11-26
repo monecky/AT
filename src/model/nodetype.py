@@ -12,5 +12,5 @@ class NodeType(Enum):
     AND = 4
 
 
-    def allNodeType():
-        return [NodeType.ROOT_OR, NodeType.ROOT_AND, NodeType.BAS, NodeType.OR, NodeType.AND]
+def allNodeType():
+    return [NodeType.ROOT_OR, NodeType.ROOT_AND, NodeType.BAS, NodeType.OR, NodeType.AND]

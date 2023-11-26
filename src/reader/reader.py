@@ -23,15 +23,19 @@ def read_line(f: IO[str]) -> str:
 
     return line
 
+
 def read_at(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     """
     Read a attack tree from a file
     :param f: The file
     :return: The AttackTree
     """
-    node_types = NodeType.OR.allNodeType()
-    while True:
-        pass
+    node_types = allNodeType()
+    for node_type in node_types:
+        line = read_line(f)
+        node = line.find(":")
+        node_type.value
+
     # options = []
     #
     # while True:
@@ -70,4 +74,24 @@ def read_at(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     #     return graph, options, True
     # else:
     #     return graph, options, False
+def load_at():
+    pass
 
+
+def get_list_of_at(filename: str) -> 'AttackTree':
+    """
+    Methode that is called to get a list of attack trees
+    @param filename: this is the list of graphs that needs to be handled.
+    @return the attack trees that where in the file.
+    """
+    # open the file
+    with open(filename) as f:
+        list_of_at = load_at(f, read_list=True)
+
+    # Give all the graphs an index, which represents the index in the initial list
+    i = 0
+    for graph in list_of_at[0]:
+        graph.index = i
+        i += 1
+
+    return list_of_at
