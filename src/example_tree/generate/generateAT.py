@@ -3,10 +3,12 @@ from random import choices, randint
 from src.model.at.nodetype import NodeType
 
 
-def generateAT(no_multi_parent:int, max_no: int) -> str:
+def generateAT(no_multi_parent:int, max_no: int, prob_mp: int) -> str:
     """
     The methode attempt to generate attack trees files. In such away we can test the algorithms.
     :param no_multi_parent: gives the number of multi-parents.
+    :param max_no: how many nodes and how high the weight.
+    :param prob_mp: how big the probability to there is a multi parent.
     :return str: That needs to be printed in the document.
     """
     result = "" # is the file context
@@ -26,6 +28,7 @@ def generateAT(no_multi_parent:int, max_no: int) -> str:
     # Representing the layer of the three
     no_nodes = no_bas
     layer = [i for i in range(no_bas)]
+    # Adding more nodes until 1 node needs to be generated make that root.
 
 
 
