@@ -101,3 +101,6 @@ class Node(object):
 
     def addParent(self, parent: 'Node'):
         self._parents += [parent]
+
+    def isMultiParent(self):
+        return len(self.parents) > 1
