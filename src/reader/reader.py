@@ -32,11 +32,12 @@ def read_at(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     node_types = allNodeType()
     for node_type in node_types:
         line = read_line(f)
-        if(line.find(":")):
+        if (line.find(":")):
             node = line.split(":")
             print(node)
             node_type.value
     return [AttackTree([Node(node_type.ROOT_AND, Attribute(0))], [])]
+
 
 def read_at_list(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     """
@@ -45,18 +46,34 @@ def read_at_list(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     :return: The AttackTree list
     """
     print("read list for advance")
-    node_types = allNodeType()
-    for node_type in node_types:
+    nodes_list = []
+    node_dict = dictAllNodeType()
+    while True:
         line = read_line(f)
-        node = line.find(":")
-        print(node)
-        node_type.value
-    return [AttackTree([Node(node_type.ROOT_AND,Attribute(0))],[])]
+        print(line)
+        if line.count(":")>0:
+
+            node = line.replace('\n','').split(":")
+            n_type = node_dict[int(node[0])]
+            for attr in node[1].split(","):
+                if attr == '':
+                    break
+                elif n_type == node_dict[2]:
+                    label, weight = attr.split("(")
+                else:
+                    label, weight = attr, '0'
+                print(label)
+                print(weight)
+                nodes_list += [Node(n_type,Attribute(int(weight)), int(label))]
+
+            print(node)
+        else:
+            break
+
+    return [AttackTree([Node(allNodeType()[0].ROOT_AND, Attribute(0))], [])]
 
 
-
-def load_at(f: IO[str], read_list: bool)-> 'AttackTree':
-    read_at(f)
+def load_at(f: IO[str], read_list: bool) -> 'AttackTree':
     """
     Load a at from a file
     :param f: The file

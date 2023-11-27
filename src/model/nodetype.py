@@ -14,3 +14,10 @@ class NodeType(Enum):
 
 def allNodeType():
     return [NodeType.ROOT_OR, NodeType.ROOT_AND, NodeType.BAS, NodeType.OR, NodeType.AND]
+
+
+def dictAllNodeType():
+    result = {}
+    for node_type in allNodeType():
+        result[node_type.value] = node_type
+    return result
