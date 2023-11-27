@@ -1,7 +1,5 @@
-from typing import List
-
-from src.model.edge import *
-from src.model.node import *
+from src.model.at.edge import *
+from src.model.at.node import *
 index = 0
 
 class AttackTree(object):
@@ -15,6 +13,14 @@ class AttackTree(object):
         :param edges: Represent the edges
         """
         global index
+        for node in nodes:
+            if node.node_type == NodeType.ROOT_OR or node.node_type == NodeType.ROOT_AND:
+                self._root = node
+        try:
+            if self._root is None:
+                AtError("Attack tree needs to contain root")
+        except AttributeError:
+            AtError("Attack tree needs to contain root")
         self._nodes = nodes
         self._edges = edges
         self.index = index
@@ -33,6 +39,10 @@ class AttackTree(object):
         :return: A user-friendly representation of this attack tree
         """
         return '({},{}, {})'.format(str(self.index),str(self.nodes), str(self.edges))
+
+    @property
+    def root(self):
+        return self._root
 
     @property
     def nodes(self):

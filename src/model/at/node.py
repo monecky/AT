@@ -1,8 +1,8 @@
 from typing import List
 
-from src.model.attribute import *
-from src.model.nodetype import *
-from src.model.at_error import *
+from src.model.at.attribute import *
+from src.model.at.nodetype import *
+from src.model.at.at_error import *
 
 
 class Node(object):
@@ -36,7 +36,7 @@ class Node(object):
         A programmer-friendly representation of the node.
         :return: The string to approximate the constructor arguments of the 'Node'
         """
-        return 'Node(label={}, #parents={}, #children={}, #attribute={})'.format(self.label, len(self.parents),
+        return 'Node(label={}, #nodeType={}, #parents={}, #children={}, #attribute={})'.format(self.label, self.node_type, len(self.parents),
                                                                                  len(self.children), self._attribute)
 
     def __str__(self) -> str:
@@ -100,4 +100,4 @@ class Node(object):
         self._children += [child]
 
     def addParent(self, parent: 'Node'):
-        self._children += [parent]
+        self._parents += [parent]

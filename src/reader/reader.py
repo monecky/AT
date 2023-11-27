@@ -3,7 +3,7 @@ Includes functions for reading and writing graphs, in a very simple readable for
 """
 from typing import IO, Tuple
 
-from src.model.attack_tree import *
+from src.model.at.attack_tree import *
 
 DEFAULT_COLOR_SCHEME = "paired12"
 NUM_COLORS = 12
