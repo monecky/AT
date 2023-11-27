@@ -8,7 +8,7 @@ class Edge(object):
     (`Node` objects). The order of these matters when the graph is directed.
     """
 
-    def __init__(self, parent: Node, child: Node):
+    def __init__(self, parent: 'Node', child: 'Node'):
         """
         Creates an edge between vertices `tail` and `head`
         :param parent: In case the graph is directed, this is the tail of the arrow.
@@ -16,8 +16,8 @@ class Edge(object):
         """
         if parent.at != child.at:
             raise AtError("Can only add edges between nodes of the same graph")
-        parent.children(child)
-        child.parents(parent)
+        parent.addChild(child)
+        child.addParent(parent)
         self._parent = parent
         self._child = child
 
@@ -26,7 +26,7 @@ class Edge(object):
         A programmer-friendly representation of the edge.
         :return: The string to approximate the constructor arguments of the 'Edge'
         """
-        return 'Edge(parent={}, child={})'.format(self.child.label, self.parent.label)
+        return 'Edge(parent={}, child={})'.format(self.parent.label, self.child.label)
 
     def __str__(self) -> str:
         """

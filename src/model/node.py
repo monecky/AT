@@ -1,3 +1,5 @@
+from typing import List
+
 from src.model.attribute import *
 from src.model.nodetype import *
 from src.model.at_error import *
@@ -87,9 +89,15 @@ class Node(object):
         self._node_type = node_type
 
     @parents.setter
-    def parents(self, parent: 'Node'):
-        self._parents += [parent]
+    def parents(self, parents: List['Node']):
+        self._parents = parents
 
     @children.setter
-    def children(self, children: 'Node'):
-        self._children += [children]
+    def children(self, children: List['Node']):
+        self._children = children
+
+    def addChild(self, child: 'Node'):
+        self._children += [child]
+
+    def addParent(self, parent: 'Node'):
+        self._children += [parent]
