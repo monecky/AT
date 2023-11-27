@@ -45,28 +45,32 @@ def read_at_list(f: IO[str]) -> Tuple[AttackTree, List[str], bool]:
     :param f: The file where the attack tree is stored.
     :return: The AttackTree list
     """
-    print("read list for advance")
     nodes_list = []
-    node_dict = dictAllNodeType()
+    node_dict = {}
+    type_dict = dictAllNodeType()
     while True:
         line = read_line(f)
-        print(line)
         if line.count(":")>0:
 
             node = line.replace('\n','').split(":")
-            n_type = node_dict[int(node[0])]
+            n_type = type_dict[int(node[0])]
             for attr in node[1].split(","):
-                if attr == '':
-                    break
-                elif n_type == node_dict[2]:
-                    label, weight = attr.split("(")
-                else:
-                    label, weight = attr, '0'
-                print(label)
-                print(weight)
-                nodes_list += [Node(n_type,Attribute(int(weight)), int(label))]
-
-            print(node)
+                if attr != '':
+                    if n_type == type_dict[2]:
+                        label, weight = attr.split("(")
+                    else:
+                        label, weight = attr, '0'
+                    nodes_list += [Node(n_type,Attribute(int(weight)), int(label))]
+                    node_dict[int(label)] = nodes_list[-1]
+        elif line == 'stop\n':
+            break
+    edge_list = []
+    while True:
+        line = read_line(f)
+        if line != 'stop\n':
+            edge = line.split(',')
+            if len(line) == 2:
+                edge_list += [Edge(node_dict[edge[0]], node_dict[edge[1]])]
         else:
             break
 
