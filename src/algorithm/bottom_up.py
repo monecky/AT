@@ -8,7 +8,7 @@ from src.model.at.nodetype import NodeType
 from src.model.ring.semi_ring import SemiRing
 
 
-def bottom_up_tree(at: 'AttackTree', root: 'Node', semi_ring: SemiRing, map_value: List[(int, Node)], map_mp :List[(Node, int)]):
+def bottom_up_tree(at: 'AttackTree', root: 'Node', semi_ring: SemiRing):
     result = 0
     match root.node_type:
         case NodeType.ROOT_OR:
@@ -20,9 +20,13 @@ def bottom_up_tree(at: 'AttackTree', root: 'Node', semi_ring: SemiRing, map_valu
         case NodeType.AND:
             result = semi_ring.and_operator(([bottom_up_tree(at, child, semi_ring) for child in root.children]))
         case NodeType.BAS:
-            result = root.attribute.value
+            if root.isMultiParent():
+                result = [[root.attribute.value, [root]], [root, root.attribute.value]]
+            else:
+                result = [[root.attribute.value, []], [root, root.attribute.value]]
         case _:
             AtError('Not a valid node type.')
     if root.isMultiParent():
+        #TODO
         map_mp[root] = result
     return result
