@@ -29,3 +29,16 @@ class MiniumCostMetric(SemiRing):
     @classmethod
     def and_operator(self, array_of_numbers):
         return sum(array_of_numbers)
+
+
+class MiniumCostMetricTree(SemiRing):
+    def __init__(self, field):
+        self._field = field
+
+    @classmethod
+    def or_operator(self, array_of_numbers):
+        return min(array_of_numbers)
+
+    @classmethod
+    def and_operator(self, array_of_numbers):
+        return sum(array_of_numbers)

@@ -1,10 +1,14 @@
+from typing import List
+
 from src.model.at.at_error import AtError
 from src.model.at.attack_tree import AttackTree
+from src.model.at.attribute import Attribute
 from src.model.at.node import Node
 from src.model.at.nodetype import NodeType
 from src.model.ring.semi_ring import SemiRing
 
-def bottom_up_tree(at: 'AttackTree', root: 'Node', semi_ring: SemiRing):
+
+def bottom_up_tree(at: 'AttackTree', root: 'Node', semi_ring: SemiRing, map_value: List[(int, Node)], map_mp :List[(Node, int)]):
     result = 0
     match root.node_type:
         case NodeType.ROOT_OR:
@@ -19,5 +23,6 @@ def bottom_up_tree(at: 'AttackTree', root: 'Node', semi_ring: SemiRing):
             result = root.attribute.value
         case _:
             AtError('Not a valid node type.')
-
+    if root.isMultiParent():
+        map_mp[root] = result
     return result
