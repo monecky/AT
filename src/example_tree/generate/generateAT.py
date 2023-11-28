@@ -42,7 +42,7 @@ def generateAT(no_multi_parent: int, max_no_bas: int, max_weight: int) -> str:
                 no_mp = no_mp - 1
                 layer += [layer[randint(0, len(layer) - 1)]]  # Adding the node with mp to the layer as addition.
         # Deciding how many nodes need to be combined in the layer
-        comb_node = biased_random(2,len(layer))
+        comb_node = biased_random(2, len(layer))
         or_or_and = choices([True, False])
         # Check for ROOT node
         if comb_node == len(layer):
@@ -60,7 +60,7 @@ def generateAT(no_multi_parent: int, max_no_bas: int, max_weight: int) -> str:
             if [no_nodes, layer[remove_node]] not in track_edges:
                 edges += str(no_nodes) + "," + str(layer[remove_node]) + "\n"
                 track_edges += [[no_nodes, layer[remove_node]]]
-            layer.remove(layer[randint(0, len(layer) - 1)])
+            layer.remove(layer[remove_node])
         layer += [no_nodes]
         # Put the counter further
         no_nodes += 1
@@ -69,5 +69,7 @@ def generateAT(no_multi_parent: int, max_no_bas: int, max_weight: int) -> str:
     result += edges + "\nstop\ndone\n"
     return result
 
-def biased_random(min:int, max:int):
-    return floor(abs(random() - random()) * (1 + max - min) + min)
+
+def biased_random(minim: int, maxim: int):
+    return floor(abs(random() - random()) * (1 + maxim - minim) + minim)
+
