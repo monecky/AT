@@ -2,7 +2,7 @@ from src.example_tree.generate.generateAT import generateAT
 
 
 def main():
-    print(generateAT(10,10))
+    print(generateAT(100,100,10))
 
 
 
