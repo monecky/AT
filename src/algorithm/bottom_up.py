@@ -20,9 +20,9 @@ def bottom_up(at: 'AttackTree', root: 'Node', semi_ring: SemiRing):
             result = semi_ring.and_operator(([bottom_up(at, child, semi_ring) for child in root.children]))
         case NodeType.BAS:
             if root.isMultiParent():
-                result = [[[root.attribute.value, {root}], {root: root.attribute.value}]]
+                result = [[[root.attribute.value, {root}]], {root: root.attribute.value}]
             else:
-                result = [[[root.attribute.value, {}], {}]]
+                result = [[[root.attribute.value, {}]], {}]
         case _:
             AtError('Not a valid node type.')
     if root.isMultiParent() and root.node_type != NodeType.BAS:

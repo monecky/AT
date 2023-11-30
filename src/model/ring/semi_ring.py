@@ -53,68 +53,78 @@ class MiniumCostMetricGraph(SemiRing):
 
     @classmethod
     def root_or_operator(cls, mapping):
-        return min(mapping)
+        result = cls.or_operator(mapping)
+        return min(result[0])[0]
 
     @classmethod
     def root_and_operator(cls, mapping):
-        # Glue all node result together
-        mapping_attribute = {}
-        for result in mapping:
-            mapping_attribute = mapping_attribute | result[0][1]
-        # Reduce result.
-        mapping_value = []
-        added_nodes = []
-        value = 0
-        # Adding for the min/max
-        for result in mapping:
-            value += result[0][0][0]
-            for node in result[0][0][1]:
-                if node not in added_nodes:
-                    added_nodes += [node]
-                else:
-                    # Node is already added, so subtract value.
-                    for map in mapping_attribute:
-                        if map[1] == node:
-                            value -= map[0]
-        mapping_value = [value, added_nodes]
-        return [mapping_value, mapping_attribute]
+        result = cls.and_operator(mapping)
+        return min(result[0])[0]
 
     @classmethod
     def or_operator(cls, mapping):
         # Glue all node result together
         mapping_attribute = {}
         for result in mapping:
-            mapping_attribute = mapping_attribute | result[0][1]
+            mapping_attribute = mapping_attribute | result[1]
         mapping_value = []
         # We need to check for duplicated and reduce those
         combination_added = []
         for result in mapping:
-            if result[0][0][1] not in combination_added:
-                combination_added += [result[0][0][1]]
-                mapping_value += [result[0][0]]
-            else:
-                # Check what value is already added.
-                for m_value in mapping_value:
-                    m_value
-        return [[mapping_value, mapping_attribute]]
+            combination_added += [result[0][0][1]]
+            mapping_value += [result[0][0]]
+        result = [cls.thin_out(mapping_value), mapping_attribute]
+        return result
 
     @classmethod
     def and_operator(cls, mapping):
         # Glue all node result together
         mapping_attribute = {}
         for result in mapping:
-            mapping_attribute = mapping_attribute | result[0][1]
-        # Reduce result
+            mapping_attribute = mapping_attribute | result[1]
+        # Reduce result.
         added_nodes = []
-        value = 0
         # Adding for the min/max
         for result in mapping:
-            value += result[0][0][0]
-            for node in result[0][0][1]:
+            for node in result[0][1]:
                 if node not in added_nodes:
                     added_nodes += [node]
-                else:
-                    # Node is already added, so subtract value.
-                    value -= mapping_attribute[node]
-        mapping_value = [value, added_nodes]
-        return [mapping_value, mapping_attribute]
+                    ''''Adding all possibilities together'''
+        option = []  # list of options
+        new_option = []
+        for result in mapping:
+            if len(option) == 0:
+                option = result[0]
+            else:
+                for path in result[0]:
+                    for change in option:
+                        element = change.copy()
+                        element[0] += path[0]
+                        for node in path[1]:
+                            if node not in change[1]:
+                                element[1] = set(element[1]) | {node}
+                            else:
+                                element[0] -= mapping_attribute[node]
+                        new_option += [element]
+                option = new_option
+                new_option = []
+        mapping_value = option
+        # Thin out options
+        option = cls.thin_out(mapping_value)
+        return [option, mapping_attribute]
+
+    @staticmethod
+    def thin_out(mapping_value):
+        # Thin out options, by choosing the smallest with the nodes.
+        option = []
+        for change in mapping_value:
+            add = True
+            for found in option:
+                if found[1] == change[1]:
+                    add = False
+                    if found[0] > change[0]:
+                        option.remove(found)
+                        option.append(change)
+            if add:
+                option += [change]
+        return option
