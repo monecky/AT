@@ -1,4 +1,3 @@
-from typing import List
 
 from src.model.at.at_error import AtError
 from src.model.at.attack_tree import AttackTree
@@ -7,26 +6,33 @@ from src.model.at.nodetype import NodeType
 from src.model.ring.semi_ring import SemiRing
 
 
-def bottom_up(at: 'AttackTree', root: 'Node', semi_ring: SemiRing):
+def bottom_up(at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
+    """
+    The goal of the methode is the determine the security metrics.
+    :param at: 
+    :param node:
+    :param semi_ring:
+    :return:
+    """
     result = 0
-    match root.node_type:
+    match node.node_type:
         case NodeType.ROOT_OR:
-            result = semi_ring.root_or_operator([bottom_up(at, child, semi_ring) for child in root.children])
+            result = semi_ring.root_or_operator([bottom_up(at, child, semi_ring) for child in node.children])
         case NodeType.ROOT_AND:
-            result = semi_ring.root_and_operator(([bottom_up(at, child, semi_ring) for child in root.children]))
+            result = semi_ring.root_and_operator(([bottom_up(at, child, semi_ring) for child in node.children]))
         case NodeType.OR:
-            result = semi_ring.or_operator([bottom_up(at, child, semi_ring) for child in root.children])
+            result = semi_ring.or_operator([bottom_up(at, child, semi_ring) for child in node.children])
         case NodeType.AND:
-            result = semi_ring.and_operator(([bottom_up(at, child, semi_ring) for child in root.children]))
+            result = semi_ring.and_operator(([bottom_up(at, child, semi_ring) for child in node.children]))
         case NodeType.BAS:
-            if root.isMultiParent():
-                result = [[[root.attribute.value, {root}]], {root: root.attribute.value}]
+            if node.isMultiParent():
+                result = [[[node.attribute.value, {node}]], {node: node.attribute.value}]
             else:
-                result = [[[root.attribute.value, {}]], {}]
+                result = [[[node.attribute.value, {}]], {}]
         case _:
             AtError('Not a valid node type.')
-    if root.isMultiParent() and root.node_type != NodeType.BAS:
+    if node.isMultiParent() and node.node_type != NodeType.BAS:
         for sub_result in result:
-            sub_result[0][1] += {root}
-            sub_result[root] = [result[0]]
+            sub_result[0][1] += {node}
+            sub_result[node] = [result[0]]
     return result
