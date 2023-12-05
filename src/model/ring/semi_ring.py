@@ -6,19 +6,19 @@ class SemiRing(ABC):
         self._field = field
 
     @abstractmethod
-    def root_or_operator(self, array_of_numbers):
+    def root_or_operator(self, array_of_numbers, node):
         pass
 
     @abstractmethod
-    def root_and_operator(self, array_of_numbers):
+    def root_and_operator(self, array_of_numbers,node):
         pass
 
     @abstractmethod
-    def or_operator(self, array_of_numbers):
+    def or_operator(self, array_of_numbers, node):
         pass
 
     @abstractmethod
-    def and_operator(self, array_of_numbers):
+    def and_operator(self, array_of_numbers, node):
         pass
 
     @property
@@ -31,19 +31,19 @@ class MiniumCostMetricTree(SemiRing):
         self._field = field
 
     @classmethod
-    def root_or_operator(cls, array_of_numbers):
+    def root_or_operator(cls, array_of_numbers, node):
         return min(array_of_numbers)
 
     @classmethod
-    def root_and_operator(cls, array_of_numbers):
+    def root_and_operator(cls, array_of_numbers,node):
         return sum(array_of_numbers)
 
     @classmethod
-    def or_operator(cls, array_of_numbers):
+    def or_operator(cls, array_of_numbers, node):
         return min(array_of_numbers)
 
     @classmethod
-    def and_operator(cls, array_of_numbers):
+    def and_operator(cls, array_of_numbers, node):
         return sum(array_of_numbers)
 
 
@@ -52,17 +52,17 @@ class MiniumCostMetricGraph(SemiRing):
         self._field = field
 
     @classmethod
-    def root_or_operator(cls, mapping):
+    def root_or_operator(cls, mapping, node):
         result = cls.or_operator(mapping)
         return min(result[0])[0]
 
     @classmethod
-    def root_and_operator(cls, mapping):
+    def root_and_operator(cls, mapping, node):
         result = cls.and_operator(mapping)
         return min(result[0])[0]
 
     @classmethod
-    def or_operator(cls, mapping):
+    def or_operator(cls, mapping, node):
         # Glue all node result together
         mapping_attribute = {}
         for result in mapping:
@@ -77,7 +77,7 @@ class MiniumCostMetricGraph(SemiRing):
         return result
 
     @classmethod
-    def and_operator(cls, mapping):
+    def and_operator(cls, mapping, node):
         # Glue all node result together
         mapping_attribute = {}
         for result in mapping:
@@ -114,7 +114,7 @@ class MiniumCostMetricGraph(SemiRing):
         return [option, mapping_attribute]
 
     @staticmethod
-    def thin_out(mapping_value):
+    def thin_out(mapping_value, node):
         # Thin out options, by choosing the smallest with the nodes.
         option = []
         for change in mapping_value:

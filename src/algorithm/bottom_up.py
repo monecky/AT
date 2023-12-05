@@ -17,13 +17,13 @@ def bottom_up(at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
     result = 0
     match node.node_type:
         case NodeType.ROOT_OR:
-            result = semi_ring.root_or_operator([bottom_up(at, child, semi_ring) for child in node.children])
+            result = semi_ring.root_or_operator([bottom_up(at, child, semi_ring) for child in node.children], node)
         case NodeType.ROOT_AND:
-            result = semi_ring.root_and_operator(([bottom_up(at, child, semi_ring) for child in node.children]))
+            result = semi_ring.root_and_operator(([bottom_up(at, child, semi_ring) for child in node.children]), node)
         case NodeType.OR:
-            result = semi_ring.or_operator([bottom_up(at, child, semi_ring) for child in node.children])
+            result = semi_ring.or_operator([bottom_up(at, child, semi_ring) for child in node.children], node)
         case NodeType.AND:
-            result = semi_ring.and_operator(([bottom_up(at, child, semi_ring) for child in node.children]))
+            result = semi_ring.and_operator(([bottom_up(at, child, semi_ring) for child in node.children]), node)
         case NodeType.BAS:
             if node.isMultiParent():
                 result = [[[node.attribute.value, {node}]], {node: node.attribute.value}]

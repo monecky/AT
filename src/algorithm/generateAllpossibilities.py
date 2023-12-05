@@ -1,99 +1,87 @@
+from typing import List, Tuple
+
 from src.model.at.at_error import AtError
+from src.model.at.attack_tree import AttackTree
+from src.model.at.node import Node
 from src.model.at.nodetype import NodeType
 from src.model.ring.semi_ring import SemiRing
 
 
-def gen_bu(at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
+def gen_bu(at: 'AttackTree', node: 'Node', semi_ring: SemiRing) :
     """
-    The goal of the methode is to generate a general listwith all possibilities. That are correct options.
+    The goal of the methode is to generate a general list with all possibilities. That are correct options.
     :param at: the attack tree to be analysis
     :param node: which node need to be analysised
     :param semi_ring: the operators that should be used.
-    :return: a general list of options.
+    :return: a general list of options. : List[List[int, set[Node], dict[Node: int]]]
     """
     result = 0
     match node.node_type:
-        case NodeType.OR, NodeType.ROOT_OR:
-            result = semi_ring.or_operator([gen_bu(at, child, semi_ring) for child in node.children])
-        case NodeType.AND, NodeType.ROOT_AND:
-            result = semi_ring.and_operator(([gen_bu(at, child, semi_ring) for child in node.children]))
+        case NodeType.ROOT_OR:
+            result = semi_ring.or_operator([gen_bu(at, child, semi_ring) for child in node.children], node)
+        case NodeType.ROOT_AND:
+            result = semi_ring.and_operator([gen_bu(at, child, semi_ring) for child in node.children], node)
+        case NodeType.OR:
+            result = semi_ring.or_operator([gen_bu(at, child, semi_ring) for child in node.children], node)
+        case NodeType.AND:
+            result = semi_ring.and_operator([gen_bu(at, child, semi_ring) for child in node.children], node)
         case NodeType.BAS:
-            if node.isMultiParent():
-                result = [[[node.attribute.value, {node}]], {node: node.attribute.value}]
-            else:
-                result = [[[node.attribute.value, {}]], {}]
+            result = [[node.attribute.value, {node}, {node: node.attribute.value}]]
         case _:
             AtError('Not a valid node type.')
-    if node.isMultiParent() and node.node_type != NodeType.BAS:
-        for sub_result in result:
-            sub_result[0][1] += {node}
-            sub_result[node] = [result[0]]
+    if isinstance(node, AttackTree):
+        AtError('No NodeType')
     return result
-class MiniumCostMetricGraph(SemiRing):
+
+
+class MetricBasic(SemiRing):
     def __init__(self, field):
         self._field = field
 
     @classmethod
-    def root_or_operator(cls, mapping):
-        result = cls.or_operator(mapping)
+    def root_or_operator(cls, mapping, node):
+        result = cls.or_operator(mapping, node)
         return min(result[0])[0]
 
     @classmethod
-    def root_and_operator(cls, mapping):
-        result = cls.and_operator(mapping)
+    def root_and_operator(cls, mapping, node):
+        result = cls.and_operator(mapping, node)
         return min(result[0])[0]
 
     @classmethod
-    def or_operator(cls, mapping):
-        # Glue all node result together
-        mapping_attribute = {}
-        for result in mapping:
-            mapping_attribute = mapping_attribute | result[1]
-        mapping_value = []
-        # We need to check for duplicated and reduce those
-        combination_added = []
-        for result in mapping:
-            combination_added += [result[0][0][1]]
-            mapping_value += [result[0][0]]
-        result = [cls.thin_out(mapping_value), mapping_attribute]
+    def or_operator(cls, ch_v, current_node: Node):
+        result = []
+        for u in ch_v:
+            for bu in u:
+                # Iterating through all options
+                # The value of bu[0] doesn't change because it is OR
+                # The value of the set, bu[1] does change, because the current node needs to be added
+                bu[1].add(current_node)
+                bu[2][current_node] = bu[0]
+                # That is because the effect of choice this path.
+                result += [bu]
         return result
 
     @classmethod
-    def and_operator(cls, mapping):
-        # Glue all node result together
-        mapping_attribute = {}
-        for result in mapping:
-            mapping_attribute = mapping_attribute | result[1]
-        # Reduce result.
-        added_nodes = []
-        # Adding for the min/max
-        for result in mapping:
-            for node in result[0][1]:
-                if node not in added_nodes:
-                    added_nodes += [node]
-                    ''''Adding all possibilities together'''
-        option = []  # list of options
-        new_option = []
-        for result in mapping:
-            if len(option) == 0:
-                option = result[0]
-            else:
-                for path in result[0]:
-                    for change in option:
-                        element = change.copy()
-                        element[0] += path[0]
-                        for node in path[1]:
-                            if node not in change[1]:
-                                element[1] = set(element[1]) | {node}
-                            else:
-                                element[0] -= mapping_attribute[node]
-                        new_option += [element]
-                option = new_option
-                new_option = []
-        mapping_value = option
-        # Thin out options
-        option = cls.thin_out(mapping_value)
-        return [option, mapping_attribute]
+    def and_operator(cls,options, current_node: Node):
+        result = [[0, set(), {}]]
+        for ch_v in options:
+            if ch_v == 0:
+                return 0
+            w =[]
+            for u in ch_v:
+                for re in result:
+                    k = [re[0], re[1].copy(), re[2].copy()]
+                    k[0] += u[0]
+                    for n in u[1]:
+                        if n in k[1]:
+                            k[0] -= u[2][n]
+                        else:
+                            k[1].add(n)
+                            k[2][n] = u[2][n]
+                    w += [k]
+            result = w
+        return result
 
     @staticmethod
     def thin_out(mapping_value):
