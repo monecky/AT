@@ -11,7 +11,7 @@ def gen_bu(at: 'AttackTree', node: 'Node', semi_ring: SemiRing) :
     """
     The goal of the methode is to generate a general list with all possibilities. That are correct options.
     :param at: the attack tree to be analysis
-    :param node: which node need to be analysised
+    :param node: which node need to be analysis
     :param semi_ring: the operators that should be used.
     :return: a general list of options. : List[List[int, set[Node], dict[Node: int]]]
     """
@@ -54,10 +54,6 @@ class MetricBasic(SemiRing):
         for u in ch_v:
             for bu in u:
                 # Iterating through all options
-                # The value of bu[0] doesn't change because it is OR
-                # The value of the set, bu[1] does change, because the current node needs to be added
-                bu[1].add(current_node)
-                bu[2][current_node] = bu[0]
                 # That is because the effect of choice this path.
                 result += [bu]
         return result

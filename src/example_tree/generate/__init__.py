@@ -11,7 +11,7 @@ def main(amount: int, no_multi_parent: int, max_no_bas: int, max_weight: int):
         os.makedirs(folder_path)
     for i in range(amount):
         at = generateAT(no_multi_parent, max_no_bas, max_weight)
-        file_name = "/tree" + str(i)
+        file_name = "/tree" + str(i) + ".at"
         if not os.path.exists(folder_path + file_name):
             with open(folder_path + file_name, 'w') as file:
                 file.write(at)

@@ -101,3 +101,57 @@ def get_list_of_at(filename: str) -> 'AttackTree':
         list_of_at = load_at(f, read_list=True)
 
     return list_of_at
+def write_dot(attack_tree: AttackTree, f: IO[str], directed=True):
+    """
+    Writes a given attack tree to a file in .dot format.
+    :param attack_tree: The graph. If its vertices contain attributes `label`, `colortext` or `colornum`, these are also
+    included in the file. If its edges contain an attribute `weight`, these are also included in the file.
+    :param f: The file.
+    :param directed: Whether the graph should be drawn as a directed graph.
+    """
+    if directed:
+        f.write('digraph G {\n')
+    else:
+        f.write('graph G {\n')
+
+    name = {}
+    next_name = 0
+    for v in attack_tree.nodes:
+        name[v] = next_name
+        next_name += 1
+        options = 'penwidth=3,'
+        if hasattr(v, 'label'):
+            options += 'label="' + str(v.label) + '",'
+        if hasattr(v, 'colortext'):
+            options += 'color="' + v.colortext + '",'
+        elif hasattr(v, 'colornum'):
+            options += 'color=' + str(v.colornum % NUM_COLORS + 1) + ', colorscheme=' + DEFAULT_COLOR_SCHEME + ','
+            if v.colornum >= NUM_COLORS:
+                options += 'style=filled,fillcolor=' + str((v.colornum // NUM_COLORS) % NUM_COLORS + 1) + ','
+        if hasattr(v,'node_type'):
+            if v.node_type == NodeType.OR or v.node_type == NodeType.ROOT_OR:
+                options += 'shape = "egg",'
+            elif v.node_type != NodeType.BAS:
+                options += 'shape = "triangle",'
+        if len(options) > 0:
+            f.write('    ' + str(name[v]) + ' [' + options[:-1] + ']\n')
+        else:
+            f.write('    ' + str(name[v]) + '\n')
+    f.write('\n')
+
+    for e in attack_tree.edges:
+        options = 'penwidth=2,'
+        if hasattr(e, 'weight'):
+            options += 'label="' + str(e.weight) + '",'
+        if hasattr(e, 'colortext'):
+            options += 'color="' + e.colortext + '",'
+        elif hasattr(e, 'colornum'):
+            options += 'color=' + str(e.colornum % NUM_COLORS + 1) + ', colorscheme=' + DEFAULT_COLOR_SCHEME + ','
+        if len(options) > 0:
+            options = ' [' + options[:-1] + ']'
+        if directed:
+            f.write('    ' + str(name[e.parent]) + ' -> ' + str(name[e.child]) + options + '\n')
+        else:
+            f.write('    ' + str(name[e.parent]) + '--' + str(name[e.child]) + options + '\n')
+
+    f.write('}')
