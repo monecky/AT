@@ -4,7 +4,7 @@ import os
 
 
 def main(amount: int, no_multi_parent: int, max_no_bas: int, max_weight: int):
-    folder_path = "generate" + str(no_multi_parent) + str(max_no_bas) + str(max_weight)
+    folder_path = "generate" +str(amount) +str(no_multi_parent) + str(max_no_bas) + str(max_weight)
     file_name = "/tree"
     # Created path if not already there
     if not os.path.exists(folder_path):
@@ -20,4 +20,4 @@ def main(amount: int, no_multi_parent: int, max_no_bas: int, max_weight: int):
 
 
 if __name__ == "__main__":
-    main(10,10,10,10)
+    main(100,100,100,100)

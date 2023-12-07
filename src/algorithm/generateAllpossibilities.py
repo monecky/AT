@@ -66,7 +66,9 @@ class MetricBasic(SemiRing):
                     k[0] += bu[0]
                     for n in bu[1]:
                         if n in k[1]:
-                            k[0] -= k[2][n]
+                            k[0] -= bu[2][n]
+                            if k[0] == 0:
+                                print(k[0])
                         else:
                             k[1].add(n)
                             k[2][n] = bu[2][n]
