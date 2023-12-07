@@ -29,7 +29,7 @@ def gen_bu(at: 'AttackTree', node: 'Node', semi_ring: SemiRing) :
             result = [[node.attribute.value, {node}, {node: node.attribute.value}]]
         case _:
             AtError('Not a valid node type.')
-    if isinstance(node, AttackTree):
+    if not isinstance(node, Node):
         AtError('No NodeType')
     return result
 
@@ -52,29 +52,24 @@ class MetricBasic(SemiRing):
     def or_operator(cls, ch_v, current_node: Node):
         result = []
         for u in ch_v:
-            for bu in u:
-                # Iterating through all options
-                # That is because the effect of choice this path.
-                result += [bu]
+            result += u
         return result
 
     @classmethod
-    def and_operator(cls,options, current_node: Node):
+    def and_operator(cls, ch_v, current_node: Node):
         result = [[0, set(), {}]]
-        for ch_v in options:
-            if ch_v == 0:
-                return 0
+        for u in ch_v:
             w =[]
-            for u in ch_v:
+            for bu in u:
                 for re in result:
                     k = [re[0], re[1].copy(), re[2].copy()]
-                    k[0] += u[0]
-                    for n in u[1]:
+                    k[0] += bu[0]
+                    for n in bu[1]:
                         if n in k[1]:
-                            k[0] -= u[2][n]
+                            k[0] -= bu[2][n]
                         else:
                             k[1].add(n)
-                            k[2][n] = u[2][n]
+                            k[2][n] = bu[2][n]
                     w += [k]
             result = w
         return result
