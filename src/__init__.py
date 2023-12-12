@@ -1,6 +1,6 @@
-from src.algorithm.bottom_up import bottom_up
+from src.algorithm.bottom_up import BottomUp
 from src.algorithm.generateAllMP import gen_bu2
-from src.model.ring.semi_ring import MiniumCostMetricTree, MiniumCostMetricGraph
+from src.model.ring.semi_ring import MiniumCostMetricTree
 from src.reader.reader import *
 from src.algorithm.bottom_up_tree import *
 from src.algorithm.generateAllpossibilities import *
@@ -8,7 +8,9 @@ import os
 
 def main():
     path = "..\src\example_tree\generate\generate100100100100"
-    semi = MetricBasic("int")
+    semi = MiniumCostMetricTree("int")
+    bottom_up_tree = BottomUpTree()
+    bottom_up = BottomUp()
     for file in os.listdir(path):
         filename = os.fsdecode(file)
         if filename.endswith(".at"):
@@ -19,9 +21,14 @@ def main():
             # print(min([bu[0] for bu in gen_bu(at, at.root, semi)]), end=", ")
             # gen_bu2(at,at.root, semi)
             # print(min([bu[0] for bu in gen_bu2(at, at.root, semi)]))
-            if min([bu[0] for bu in gen_bu(at, at.root, semi)]) != min([bu[0] for bu in gen_bu2(at, at.root, semi)]):
-                print(min([bu[0] for bu in gen_bu(at, at.root, semi)]), end=", ")
-                print(min([bu[0] for bu in gen_bu2(at, at.root, semi)]))
+            if (not (filename.__contains__("23")or filename.__contains__("28") or filename.__contains__("30") or filename.__contains__("35") or filename.__contains__("40"))):
+                gen1 = bottom_up.run(at, at.root, semi)
+                gen2 = bottom_up_tree.run(at, at.root, semi)
+                if min([bu[0] for bu in gen1]) != min([bu[0] for bu in gen2]):
+                    print(min([bu[0] for bu in gen1]), end=", ")
+                    print(min([bu[0] for bu in gen2]))
+                else:
+                    print(filename)
 
             # for i in gen_bu2(at, at.root, semi):
             #     print(i[0])

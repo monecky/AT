@@ -33,6 +33,7 @@ def gen_bu2(at: 'AttackTree', node: 'Node', semi_ring: SemiRing) :
             alpha = re[0]
             for n in re[1]:
                 alpha = alpha - re[2][n]
-            re[1].add(node)
-            re[2][node] = alpha
+            if alpha != 0:
+                re[1].add(node)
+                re[2][node] = alpha
     return result
