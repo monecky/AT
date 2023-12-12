@@ -1,9 +1,10 @@
-from src.algorithm.bu_basisMP import BuBasisMP
+from src.algorithm.bu_basisMPfilter import BuBasisMPfilter
 from src.model.at.attack_tree import AttackTree
 from src.model.at.node import Node
+from src.model.at.nodetype import NodeType
 
 
-class BuCMPfilter(BuBasisMP):
+class BuCMPfilter(BuBasisMPfilter):
 
     def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
         """
@@ -15,17 +16,21 @@ class BuCMPfilter(BuBasisMP):
         @param node the node where the algorithm is.
         @return the options as specified above.
         """
-        array_of_numbers = super().action_AFTER(array_of_numbers, node)
-        result = []
-        for opt in array_of_numbers:
-            dirty = True
-            for re in result:
-                if re[1] == opt[1]:
+        if node.node_type != NodeType.BAS:
+            array_of_numbers = super().action_AFTER(array_of_numbers, node)
+            result = array_of_numbers.copy()
+            for opt in array_of_numbers:
+                dirty = True
+                temp = result.copy()
+                for re in result:
                     if re[0] > opt[0]:
-                        result.remove(re)
-                        result.append(opt)
-                        dirty = False
-                        break
-            if dirty:
-                result.append(opt)
+                        if len(re[1]) < len(opt[1]):
+                            if len(opt[1]) == 1:
+                                temp.remove(re)
+                            else:
+                                if re[1].issubset(opt[1]):
+                                    temp.remove(re)
+
+                result = temp
+            array_of_numbers = result
         return array_of_numbers

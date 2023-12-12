@@ -29,4 +29,5 @@ class BuBasisMPfilter(BuBasisMP):
                         break
             if dirty:
                 result.append(opt)
+        array_of_numbers = result
         return array_of_numbers

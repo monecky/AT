@@ -12,7 +12,8 @@ def main():
     bottom_up_tree = BottomUpTree()
     bottom_up = BuBasis()
     bottom_up_mp = BuBasisMP()
-    bu_mp_filter = BuBasisMPfilter()
+    bu_Bmp_filter = BuBasisMPfilter()
+    bu_Cmp_filter = BuBasisMPfilter()
     for file in os.listdir(path):
         filename = os.fsdecode(file)
         if filename.endswith(".at"):
@@ -28,8 +29,10 @@ def main():
                 print(min(basis))
                 basisMP = bottom_up_mp.run(at, at.root, semi)
                 print(min(basisMP))
-                basisMPf = bu_mp_filter.run(at, at.root, semi)
+                basisMPf = bu_Bmp_filter.run(at, at.root, semi)
                 print(min(basisMPf))
+                CMPf = bu_Cmp_filter.run(at, at.root, semi)
+                print(min(CMPf))
                 gen2 = bottom_up_tree.run(at, at.root, semi)
                 print(gen2)
                 if min([bu[0] for bu in basis]) != min([bu[0] for bu in basisMP]):
