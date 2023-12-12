@@ -4,7 +4,7 @@ from src.model.at.node import Node
 from src.model.ring.semi_ring import SemiRing
 
 
-class BottomUpAll(AbstractBu):
+class BuBasis(AbstractBu):
     def action_ROOT_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
         result = self.action_AND(at, node, semi_ring)
         return result

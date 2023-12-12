@@ -1,15 +1,16 @@
-from src.algorithm.bottom_up_basis import BottomUpAll
-from src.algorithm.generateAllMP import gen_bu2
+from src.algorithm.bu_basis import BuBasis
+from src.algorithm.bu_basisMP import BuBasisMP
 from src.model.ring.semi_ring import MiniumCostMetricTree
 from src.reader.reader import *
-from src.algorithm.bottom_up_tree import *
+from src.algorithm.bu_tree import *
 import os
 
 def main():
     path = "..\src\example_tree\generate\generate100100100100"
     semi = MiniumCostMetricTree("int")
     bottom_up_tree = BottomUpTree()
-    bottom_up = BottomUpAll()
+    bottom_up = BuBasis()
+    bottom_up_mp = BuBasisMP()
     for file in os.listdir(path):
         filename = os.fsdecode(file)
         if filename.endswith(".at"):
@@ -21,15 +22,17 @@ def main():
             # gen_bu2(at,at.root, semi)
             # print(min([bu[0] for bu in gen_bu2(at, at.root, semi)]))
             if (not (filename.__contains__("23")or filename.__contains__("28") or filename.__contains__("30") or filename.__contains__("35") or filename.__contains__("40"))):
-                gen1 = bottom_up.run(at, at.root, semi)
-                print(gen1)
+                basis = bottom_up.run(at, at.root, semi)
+                print(min(basis))
+                basisMP = bottom_up_mp.run(at, at.root, semi)
+                print(min(basisMP))
                 gen2 = bottom_up_tree.run(at, at.root, semi)
                 print(gen2)
-                # if min([bu[0] for bu in gen1]) != min([bu[0] for bu in gen2]):
-                #     print(min([bu[0] for bu in gen1]), end=", ")
-                #     print(min([bu[0] for bu in gen2]))
-                # else:
-                print(filename)
+                if min([bu[0] for bu in basis]) != min([bu[0] for bu in basisMP]):
+                    print(min([bu[0] for bu in basis]), end=", ")
+                    print(min([bu[0] for bu in basisMP]))
+                else:
+                    print(filename)
 
             # for i in gen_bu2(at, at.root, semi):
             #     print(i[0])
