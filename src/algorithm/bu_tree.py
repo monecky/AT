@@ -20,5 +20,5 @@ class BottomUpTree(AbstractBu):
     def action_BAS(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
         return node.attribute.value
 
-    def action_AFTER(self, array_of_numbers, node):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
         return array_of_numbers

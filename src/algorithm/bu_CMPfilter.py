@@ -3,7 +3,7 @@ from src.model.at.attack_tree import AttackTree
 from src.model.at.node import Node
 
 
-class BuBasisMPfilter(BuBasisMP):
+class BuCMPfilter(BuBasisMP):
 
     def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
         """
@@ -13,10 +13,9 @@ class BuBasisMPfilter(BuBasisMP):
         2) Additionally only the most optimal value is chosen.
         @param array_of_numbers the option that minium.
         @param node the node where the algorithm is.
-        @param at is the attack tree where the metric is calculated from.
         @return the options as specified above.
         """
-        array_of_numbers = super().action_AFTER(array_of_numbers, node, at)
+        array_of_numbers = super().action_AFTER(array_of_numbers, node)
         result = []
         for opt in array_of_numbers:
             dirty = True

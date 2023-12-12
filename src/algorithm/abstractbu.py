@@ -8,17 +8,19 @@ from src.model.ring.semi_ring import SemiRing
 
 
 class AbstractBu(ABC):
-    """"
+    """
     A class that extends the abstract class such that this format can be used for the other algorithms.
     """
+
     def run(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        """"
+        """
             This where the actual algorithm runs
             @param at is the attack tree where the security metric needed to be determined over.
             @param node is the starting point.
             @param semi_ring is the semi-ring used.
             @return depends on the algorithm
         """
+        result = -1
         match node.node_type:
             case NodeType.ROOT_OR:
                 result = self.action_ROOT_AND(at, node, semi_ring)
@@ -32,8 +34,9 @@ class AbstractBu(ABC):
                 result = self.action_BAS(at, node, semi_ring)
             case _:
                 AtError('Not a valid node type.')
-        result = self.action_AFTER(result, node)
+        result = self.action_AFTER(result, node, at)
         return result
+
     @abstractmethod
     def action_ROOT_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
         """
@@ -88,12 +91,14 @@ class AbstractBu(ABC):
             @return depends on the algorithm
         """
         pass
+
     @abstractmethod
-    def action_AFTER(self, array_of_numbers, node):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
         """
             This where after is done
             @param array_of_numbers is the output.
             @param node is the starting point.
+            @param at is the attack tree
             @return depends on the algorithm
         """
         pass
