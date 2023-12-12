@@ -1,7 +1,29 @@
 from src.algorithm.bu_basisMP import BuBasisMP
 
 
-class BuBasisMP(BuBasisMP):
-    def action_AFTER(self, array_of_numbers, node):
-        array_of_numbers = super(array_of_numbers,node)
+class BuBasisMPfilter(BuBasisMP):
 
+    def action_AFTER(self, array_of_numbers, node):
+        """
+        This methode repeat what is in the action_after class.
+        After that it does the following actions:
+        1) Each element in array_of_numbers has a unique set.
+        2) Additionally only the most optimal value is chosen.
+        @param array_of_numbers the option that minium.
+        @param node the node where the algorithm is.
+        @return the options as specified above.
+        """
+        array_of_numbers = super().action_AFTER(array_of_numbers, node)
+        result = []
+        for opt in array_of_numbers:
+            dirty = True
+            for re in result:
+                if re[1] == opt[1]:
+                    if re[0] > opt[0]:
+                        result.remove(re)
+                        result.append(opt)
+                        dirty = False
+                        break
+            if dirty:
+                result.append(opt)
+        return array_of_numbers

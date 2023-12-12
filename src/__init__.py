@@ -1,5 +1,6 @@
 from src.algorithm.bu_basis import BuBasis
 from src.algorithm.bu_basisMP import BuBasisMP
+from src.algorithm.bu_basisMPfilter import BuBasisMPfilter
 from src.model.ring.semi_ring import MiniumCostMetricTree
 from src.reader.reader import *
 from src.algorithm.bu_tree import *
@@ -11,6 +12,7 @@ def main():
     bottom_up_tree = BottomUpTree()
     bottom_up = BuBasis()
     bottom_up_mp = BuBasisMP()
+    bu_mp_filter = BuBasisMPfilter()
     for file in os.listdir(path):
         filename = os.fsdecode(file)
         if filename.endswith(".at"):
@@ -26,6 +28,8 @@ def main():
                 print(min(basis))
                 basisMP = bottom_up_mp.run(at, at.root, semi)
                 print(min(basisMP))
+                basisMPf = bu_mp_filter.run(at, at.root, semi)
+                print(min(basisMPf))
                 gen2 = bottom_up_tree.run(at, at.root, semi)
                 print(gen2)
                 if min([bu[0] for bu in basis]) != min([bu[0] for bu in basisMP]):
