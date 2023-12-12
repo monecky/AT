@@ -12,10 +12,10 @@ class BottomUpTree(AbstractBu):
         return self.action_OR(at, node, semi_ring)
 
     def action_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        return semi_ring.and_operator([self.run(at, child, semi_ring) for child in node.children], node)
+        return semi_ring.and_operator([self.run(at, child, semi_ring) for child in node.children])
 
     def action_OR(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        return semi_ring.or_operator([self.run(at, child, semi_ring) for child in node.children], node)
+        return semi_ring.or_operator([self.run(at, child, semi_ring) for child in node.children])
 
     def action_BAS(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
         return node.attribute.value

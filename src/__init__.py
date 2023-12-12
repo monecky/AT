@@ -22,13 +22,14 @@ def main():
             # gen_bu2(at,at.root, semi)
             # print(min([bu[0] for bu in gen_bu2(at, at.root, semi)]))
             if (not (filename.__contains__("23")or filename.__contains__("28") or filename.__contains__("30") or filename.__contains__("35") or filename.__contains__("40"))):
-                gen1 = bottom_up.run(at, at.root, semi)
+                # gen1 = bottom_up.run(at, at.root, semi)
                 gen2 = bottom_up_tree.run(at, at.root, semi)
-                if min([bu[0] for bu in gen1]) != min([bu[0] for bu in gen2]):
-                    print(min([bu[0] for bu in gen1]), end=", ")
-                    print(min([bu[0] for bu in gen2]))
-                else:
-                    print(filename)
+                print(gen2)
+                # if min([bu[0] for bu in gen1]) != min([bu[0] for bu in gen2]):
+                #     print(min([bu[0] for bu in gen1]), end=", ")
+                #     print(min([bu[0] for bu in gen2]))
+                # else:
+                print(filename)
 
             # for i in gen_bu2(at, at.root, semi):
             #     print(i[0])
