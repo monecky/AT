@@ -16,8 +16,9 @@ class BuCMPfilter(BuBasisMPfilter):
         @param node the node where the algorithm is.
         @return the options as specified above.
         """
+        #TODO not working!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         if node.node_type != NodeType.BAS:
-            array_of_numbers = super().action_AFTER(array_of_numbers, node)
+            array_of_numbers = super().action_AFTER(array_of_numbers, node,at)
             result = array_of_numbers.copy()
             for opt in array_of_numbers:
                 dirty = True
