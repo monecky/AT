@@ -20,4 +20,4 @@ def main(amount: int, no_multi_parent: int, max_no_bas: int, max_weight: int):
 
 
 if __name__ == "__main__":
-    main(100,100,100,100)
+    main(100000,3,100,1000)

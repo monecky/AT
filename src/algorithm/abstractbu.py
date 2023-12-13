@@ -23,13 +23,13 @@ class AbstractBu(ABC):
         result = -1
         match node.node_type:
             case NodeType.ROOT_OR:
-                result = self.action_ROOT_AND(at, node, semi_ring)
-            case NodeType.ROOT_AND:
                 result = self.action_ROOT_OR(at, node, semi_ring)
+            case NodeType.ROOT_AND:
+                result = self.action_ROOT_AND(at, node, semi_ring)
             case NodeType.OR:
-                result = self.action_AND(at, node, semi_ring)
-            case NodeType.AND:
                 result = self.action_OR(at, node, semi_ring)
+            case NodeType.AND:
+                result = self.action_AND(at, node, semi_ring)
             case NodeType.BAS:
                 result = self.action_BAS(at, node, semi_ring)
             case _:

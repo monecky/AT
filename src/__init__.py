@@ -7,7 +7,7 @@ from src.algorithm.bu_tree import *
 import os
 
 def main():
-    path = "..\src\example_tree\generate\generate100100100100"
+    path = "..\src\example_tree\generate\generate10000031001000"
     semi = MiniumCostMetricTree("int")
     bottom_up_tree = BottomUpTree()
     bottom_up = BuBasis()
@@ -24,22 +24,30 @@ def main():
             # print(min([bu[0] for bu in gen_bu(at, at.root, semi)]), end=", ")
             # gen_bu2(at,at.root, semi)
             # print(min([bu[0] for bu in gen_bu2(at, at.root, semi)]))
-            if (not (filename.__contains__("23")or filename.__contains__("28") or filename.__contains__("30") or filename.__contains__("35") or filename.__contains__("40"))):
-                basis = bottom_up.run(at, at.root, semi)
-                print(min(basis))
-                basisMP = bottom_up_mp.run(at, at.root, semi)
-                print(min(basisMP))
+            if (not (filename.__contains__("23") or filename.__contains__("28") or filename.__contains__("30") or filename.__contains__("35") or filename.__contains__("40"))):
+                # basis = bottom_up.run(at, at.root, semi)
+                # print(min(basis))
+                # basisMP = bottom_up_mp.run(at, at.root, semi)
+                # print(min(basisMP))
                 basisMPf = bu_Bmp_filter.run(at, at.root, semi)
-                print(min(basisMPf))
-                CMPf = bu_Cmp_filter.run(at, at.root, semi)
-                print(min(CMPf))
+                # CMPf = bu_Cmp_filter.run(at, at.root, semi)
+                # print(min(CMPf))
                 gen2 = bottom_up_tree.run(at, at.root, semi)
-                print(gen2)
-                if min([bu[0] for bu in basis]) != min([bu[0] for bu in basisMP]):
-                    print(min([bu[0] for bu in basis]), end=", ")
-                    print(min([bu[0] for bu in basisMP]))
-                else:
+                if gen2 > min(basisMPf)[0]*5:
+                    print("bu tree bigger")
                     print(filename)
+                    print(gen2)
+                    print(min(basisMPf))
+                elif gen2 < min(basisMPf)[0]:
+                    print("Something goes wrong")
+
+
+
+                # if min([bu[0] for bu in basis]) != min([bu[0] for bu in basisMP]):
+                #     print(min([bu[0] for bu in basis]), end=", ")
+                #     print(min([bu[0] for bu in basisMP]))
+                # else:
+
 
             # for i in gen_bu2(at, at.root, semi):
             #     print(i[0])
