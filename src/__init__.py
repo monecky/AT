@@ -9,7 +9,7 @@ from src.algorithm.bu_tree import *
 import os
 
 def main():
-    path = "..\src\example_tree\generate\generate100100100100"
+    path = "..\src\example_tree\generate\generate10010010100"
     semi = MiniumCostMetricTree("int")
     bottom_up_tree = BottomUpTree()
     bottom_up = BuBasis()

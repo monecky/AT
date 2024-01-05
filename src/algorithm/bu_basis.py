@@ -20,14 +20,10 @@ class BuBasis(AbstractBu):
             w = []
             for bu in u:
                 for re in result:
-                    k = [re[0], re[1].copy(), re[2].copy()]
-                    k[0] = semi_ring.and_operator([k[0], bu[0]])
-                    for n in bu[1]:
-                        if n in k[1]:
-                            k[0] = semi_ring.and_operator([k[0], semi_ring.reverse_and(bu[2][n])])
-                        else:
-                            k[1].add(n)
-                            k[2][n] = bu[2][n]
+                    delta = bu[1].difference(re[1])
+                    new_set = re[1].copy() | bu[1]
+                    new_dict = re[2].copy()| bu[2]
+                    k = [semi_ring.and_operator([re[0],bu[0],semi_ring.reverse_and(semi_ring.and_operator([new_dict[i] for i in bu[1]])),semi_ring.and_operator([new_dict[i] for i in delta])]),new_set, new_dict]
                     w += [k]
             result = w
         return result
