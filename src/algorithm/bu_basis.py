@@ -20,10 +20,10 @@ class BuBasis(AbstractBu):
             w = []
             for bu in u:
                 for re in result:
-                    delta = bu[1].difference(re[1])
+                    delta = bu[1].intersection(re[1])
                     new_set = re[1].copy() | bu[1]
                     new_dict = re[2].copy()| bu[2]
-                    k = [semi_ring.and_operator([re[0],bu[0],semi_ring.reverse_and(semi_ring.and_operator([new_dict[i] for i in bu[1]])),semi_ring.and_operator([new_dict[i] for i in delta])]),new_set, new_dict]
+                    k = [semi_ring.and_operator([re[0],bu[0],semi_ring.reverse_and(semi_ring.and_operator([new_dict[i] for i in delta]))]),new_set, new_dict]
                     w += [k]
             result = w
         return result
