@@ -5,16 +5,16 @@ from src.model.ring.semi_ring import SemiRing
 
 
 class BuBasis(AbstractBu):
-    def action_ROOT_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        result = self.action_AND(at, node, semi_ring)
+    def action_ROOT_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
+        result = self.action_AND(at, node, semi_ring, run)
         return result
 
-    def action_ROOT_OR(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        result = self.action_OR(at, node, semi_ring)
+    def action_ROOT_OR(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
+        result = self.action_OR(at, node, semi_ring, run)
         return result
 
-    def action_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        ch_v = [self.run(at, child, semi_ring) for child in node.children]
+    def action_AND(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
+        ch_v = [run(at, child, semi_ring) for child in node.children]
         result = [[0, set(), {}]]
         for u in ch_v:
             w = []
@@ -22,23 +22,25 @@ class BuBasis(AbstractBu):
                 for re in result:
                     delta = bu[1].intersection(re[1])
                     new_set = re[1].copy() | bu[1]
-                    new_dict = re[2].copy()| bu[2]
-                    k = [semi_ring.and_operator([re[0],bu[0],semi_ring.reverse_and(semi_ring.and_operator([new_dict[i] for i in delta]))]),new_set, new_dict]
+                    new_dict = re[2].copy() | bu[2]
+                    k = [semi_ring.and_operator(
+                        [re[0], bu[0], semi_ring.reverse_and(semi_ring.and_operator([new_dict[i] for i in delta]))]),
+                         new_set, new_dict]
                     w += [k]
             result = w
         return result
 
-    def action_OR(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
-        ch_v = [self.run(at, child, semi_ring) for child in node.children]
+    def action_OR(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
+        ch_v = [run(at, child, semi_ring) for child in node.children]
         result = []
         for u in ch_v:
             result += u
         return result
 
-    def action_BAS(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
+    def action_BAS(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
         return [[node.attribute.value, {node}, {node: node.attribute.value}]]
 
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
         return array_of_numbers
 
     @staticmethod

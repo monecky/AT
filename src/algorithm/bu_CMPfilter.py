@@ -6,7 +6,7 @@ from src.model.at.nodetype import NodeType
 
 class BuCMPfilter(BuBasisMPfilter):
 
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
         """
         This methode repeat what is in the action_after class.
         After that it does the following actions:

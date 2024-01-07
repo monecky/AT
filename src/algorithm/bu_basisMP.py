@@ -5,10 +5,10 @@ from src.model.ring.semi_ring import SemiRing
 
 
 class BuBasisMP(BuBasis):
-    def action_BAS(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
+    def action_BAS(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
         return [[node.attribute.value, set(), dict()]]
 
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
         if node.isMultiParent():
             for re in array_of_numbers:
                 alpha = re[0]
