@@ -11,3 +11,5 @@ This structure is reused to program exact algorithms.
 Feel free to read the thesis:
 
 [//]: # (TODO: add link later.)
+
+ AT © 2023 by Marijke vanIperen is licensed under Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
