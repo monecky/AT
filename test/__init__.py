@@ -16,7 +16,7 @@ class TestDifferenInstance(unittest.TestCase):
     def setUp(self):
         # generate
         # main(100, 100, 10, 100)
-        # self.path = "..\src\example_tree\generate10010010100"
+        # self.path = "..\src\example_tree\generate\generate10010010100"
         self.path = "..\src\example_tree"
         self.semi = MiniumCostMetricTree("int")
         self.bottom_up_tree = BottomUpTree()
