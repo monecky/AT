@@ -20,10 +20,16 @@ class BuBasisMPfilter(BuBasisMP):
         :param semi_ring:  the semi-ring
         """
         array_of_numbers = super().action_AFTER(array_of_numbers, node, at, semi_ring, run)
+        # array_of_numbers = [c for c in array_of_numbers if all(
+        #     not (c[1] == b[1] and c[2] == b[2]) or (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in
+        #     array_of_numbers)]
+        # array_of_numbers = [c for c in array_of_numbers
+        #                     if all(not (c[1].issubset(b[1]) and c[2].issubset(b[2])) or
+        #                            (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in array_of_numbers)]
         array_of_numbers = [c for c in array_of_numbers if all(
             not (c[1] == b[1] and c[2] == b[2]) or (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in
             array_of_numbers)]
         array_of_numbers = [c for c in array_of_numbers
-                            if all(not (c[1].issubset(b[1]) and c[2].issubset(b[2])) or
+                            if all(not (c[1].issubset(b[1])) or
                                    (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in array_of_numbers)]
         return array_of_numbers
