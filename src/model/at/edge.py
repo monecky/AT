@@ -1,5 +1,5 @@
 from src.model.at.node import *
-
+"""Edge representation"""
 
 class Edge(object):
     """

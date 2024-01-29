@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-
+"""Abstract class for the semi-ring"""
 class SemiRing(ABC):
     def __init(self, field):
         self._field = field
@@ -29,7 +29,7 @@ class SemiRing(ABC):
     def field(self):
         return self._field
 
-
+"""Minimal cost implemintation of the same ring"""
 class MiniumCostMetricTree(SemiRing):
     def __init__(self, field):
         self._field = field

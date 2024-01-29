@@ -4,7 +4,7 @@ from src.model.at.attribute import *
 from src.model.at.nodetype import *
 from src.model.at.at_error import *
 
-
+"""The node class, with a lot of getters and setters."""
 class Node(object):
     """
     'Node' objects have a property 'attack_tree' pointing to the AT they are part of,

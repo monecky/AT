@@ -1,7 +1,7 @@
 from src.model.at.edge import *
 from src.model.at.node import *
 index = 0
-
+"""Attack tree representation"""
 class AttackTree(object):
     """
     'AT' objects representation of a complexer hole.

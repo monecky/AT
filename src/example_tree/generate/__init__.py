@@ -4,6 +4,14 @@ import os
 
 
 def main(amount: int, no_multi_parent: int, max_no_bas: int, max_weight: int):
+    """
+    Generate multiple attack tree files.
+    :param amount: the amount of graphs
+    :param no_multi_parent: the number of multi-parent
+    :param max_no_bas: number of bas nodes
+    :param max_weight: max number of the weight of the bas nodes.
+    :return: void
+    """
     folder_path = "generate" +str(amount) +str(no_multi_parent) + str(max_no_bas) + str(max_weight)
     file_name = "/tree"
     # Created path if not already there

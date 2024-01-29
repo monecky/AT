@@ -71,5 +71,10 @@ def generateAT(no_multi_parent: int, max_no_bas: int, max_weight: int) -> str:
 
 
 def biased_random(minim: int, maxim: int):
+    """
+    returns an int that is biased to the minim
+    :param minim: minim number of return
+    :param maxim: maxium number of return
+    :return: int
+    """
     return floor(abs(random() - random()) * (1 + maxim - minim) + minim)
-
