@@ -64,9 +64,10 @@ class BottomUpTree(AbstractBu):
           """
         return node.attribute.value
 
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree,  semi_ring: SemiRing, run):
         """
         Return array_of_numbers without a change.
+        :param semi_ring: the operator to be used.
         :param array_of_numbers: what is return
         :param node: the current node
         :param at: the attack tree.

@@ -30,7 +30,7 @@ def main():
             if (not (filename.__contains__("100"))):
                 # if True:
                 basis = bottom_up.run(at, at.root, semi)
-                basis_lp = bottom_up.run_lp(at, at.root, semi)
+                basis_lp = bottom_up.run_dp(at, at.root, semi)
 
                 if min([bu[0] for bu in basis ]) != min([bu[0] for bu in basis_lp]):
                     print(min([bu[0] for bu in basis]), end=", ")

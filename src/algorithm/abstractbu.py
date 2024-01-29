@@ -11,8 +11,37 @@ class AbstractBu(ABC):
     """
     A class that extends the abstract class such that this format can be used for the other algorithms.
     """
-    storage_result = {}
-    def run_lp(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
+
+    def __init__(self):
+        """Constructor to let the object exist"""
+        self.storage_result = {}
+
+    def run_logic(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing, run):
+        """
+        Helper class to reduce duplicate code.
+        :param at:  attack tree
+        :param node:  node to handle
+        :param semi_ring:  the semi ring that is used.
+        :param run:  the program where the main program runs in.
+        :return: the and or action taken result.
+        """
+        result = -1
+        match node.node_type:
+            case NodeType.ROOT_OR:
+                result = self.action_ROOT_OR(at, node, semi_ring, run)
+            case NodeType.ROOT_AND:
+                result = self.action_ROOT_AND(at, node, semi_ring, run)
+            case NodeType.OR:
+                result = self.action_OR(at, node, semi_ring, run)
+            case NodeType.AND:
+                result = self.action_AND(at, node, semi_ring, run)
+            case NodeType.BAS:
+                result = self.action_BAS(at, node, semi_ring, run)
+            case _:
+                AtError('Not a valid node type.')
+        return self.action_AFTER(result, node, at, semi_ring, self.run_dp)
+
+    def run_dp(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
         """
             This where the actual algorithm runs, in linear programming format.
             :param at: is the attack tree where the security metric needed to be determined over.
@@ -20,27 +49,12 @@ class AbstractBu(ABC):
             :param semi_ring: is the semi-ring used.
             :return: depends on the algorithm
         """
-        global storage_result
         if node.node_type == NodeType.ROOT_OR or node.node_type == NodeType.ROOT_AND:
-            storage_result = {}
-        if node in storage_result:
-            return storage_result[node]
-        result = -1
-        match node.node_type:
-            case NodeType.ROOT_OR:
-                result = self.action_ROOT_OR(at, node, semi_ring, self.run_lp)
-            case NodeType.ROOT_AND:
-                result = self.action_ROOT_AND(at, node, semi_ring, self.run_lp)
-            case NodeType.OR:
-                result = self.action_OR(at, node, semi_ring, self.run_lp)
-            case NodeType.AND:
-                result = self.action_AND(at, node, semi_ring, self.run_lp)
-            case NodeType.BAS:
-                result = self.action_BAS(at, node, semi_ring, self.run_lp)
-            case _:
-                AtError('Not a valid node type.')
-        result = self.action_AFTER(result, node, at, self.run_lp)
-        storage_result[node] = result
+            self.storage_result = {}
+        if node in self.storage_result:
+            return self.storage_result[node]
+        result = self.run_logic(at, node, semi_ring, self.run_dp)
+        self.storage_result[node] = result
         return result
 
     def run(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
@@ -51,21 +65,7 @@ class AbstractBu(ABC):
             :param semi_ring: is the semi-ring used.
             :return: depends on the algorithm
         """
-        result = -1
-        match node.node_type:
-            case NodeType.ROOT_OR:
-                result = self.action_ROOT_OR(at, node, semi_ring, self.run)
-            case NodeType.ROOT_AND:
-                result = self.action_ROOT_AND(at, node, semi_ring, self.run)
-            case NodeType.OR:
-                result = self.action_OR(at, node, semi_ring, self.run)
-            case NodeType.AND:
-                result = self.action_AND(at, node, semi_ring, self.run)
-            case NodeType.BAS:
-                result = self.action_BAS(at, node, semi_ring, self.run)
-            case _:
-                AtError('Not a valid node type.')
-        result = self.action_AFTER(result, node, at, self.run)
+        result = self.run_logic(at, node, semi_ring, self.run_dp)
         return result
 
     @abstractmethod
@@ -129,9 +129,10 @@ class AbstractBu(ABC):
         pass
 
     @abstractmethod
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree,  semi_ring: SemiRing, run):
         """
             This where after is done
+            :param semi_ring: the operators used.
             :param array_of_numbers: is the output.
             :param node: is the starting point.
             :param at: is the attack tree

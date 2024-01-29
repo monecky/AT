@@ -84,9 +84,10 @@ class BuBasis(AbstractBu):
            """
         return [[node.attribute.value, {node}, {node: node.attribute.value}]]
 
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, semi_ring: SemiRing, run):
         """
            Determine the AFTER action
+           :param semi_ring: the operators
            :param node: the current node
            :param at: the attack tree.
            :param array_of_numbers: temp result.

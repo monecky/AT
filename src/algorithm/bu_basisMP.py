@@ -18,9 +18,10 @@ class BuBasisMP(BuBasis):
         """
         return [[node.attribute.value, set(), dict()]]
 
-    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, run):
+    def action_AFTER(self, array_of_numbers, node: Node, at: AttackTree, semi_ring: SemiRing, run):
         """
         add if necessary the mp
+        :param semi_ring:
         :param array_of_numbers: result
         :param node:  node that is considered
         :param at: the attack tree
