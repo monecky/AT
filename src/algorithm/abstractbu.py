@@ -43,7 +43,7 @@ class AbstractBu(ABC):
 
     def run_dp(self, at: 'AttackTree', node: 'Node', semi_ring: SemiRing):
         """
-            This where the actual algorithm runs, in linear programming format.
+            This where the actual algorithm runs, in dynamic programming format.
             :param at: is the attack tree where the security metric needed to be determined over.
             :param node: is the starting point.
             :param semi_ring: is the semi-ring used.

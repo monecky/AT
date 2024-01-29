@@ -1,4 +1,3 @@
-from src.algorithm.bu_CMPfilter import BuCMPfilter
 from src.algorithm.bu_basis import BuBasis
 from src.algorithm.bu_basisMP import BuBasisMP
 from src.algorithm.bu_basisMPfilter import BuBasisMPfilter
@@ -15,7 +14,6 @@ def main():
     bottom_up = BuBasis()
     bottom_up_mp = BuBasisMP()
     bu_Bmp_filter = BuBasisMPfilter()
-    bu_Cmp_filter = BuCMPfilter()
 
     for file in os.listdir(path):
         filename = os.fsdecode(file)
@@ -32,7 +30,7 @@ def main():
                 basis = bottom_up.run(at, at.root, semi)
                 basis_lp = bottom_up.run_dp(at, at.root, semi)
 
-                if min([bu[0] for bu in basis ]) != min([bu[0] for bu in basis_lp]):
+                if min([bu[0] for bu in basis]) != min([bu[0] for bu in basis_lp]):
                     print(min([bu[0] for bu in basis]), end=", ")
                     print(min([bu[0] for bu in basis_lp]))
                 else:
