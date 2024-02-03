@@ -27,9 +27,9 @@ class BuBasisMPfilter(BuBasisMP):
         #                     if all(not (c[1].issubset(b[1]) and c[2].issubset(b[2])) or
         #                            (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in array_of_numbers)]
         array_of_numbers = [c for c in array_of_numbers if all(
-            not (c[1] == b[1] and c[2] == b[2]) or (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in
+            not (c[1] == b[1] and c[2] == b[2]) or (semi_ring.or_operator([c[0], b[0]]) == c[0]  or c[0] == b[0]) for b in
             array_of_numbers)]
         array_of_numbers = [c for c in array_of_numbers
-                            if all(not (c[1].issubset(b[1])) or
-                                   (semi_ring.or_operator([c[0], b[0]]) == c[0]) for b in array_of_numbers)]
+                            if any(not (b[1].issubset(c[1]) or
+                                   (semi_ring.or_operator([c[0], b[0]]) == c[0] or c[0] == b[0]))for b in array_of_numbers)]
         return array_of_numbers
